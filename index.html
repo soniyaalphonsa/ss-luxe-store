@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS LUXE | Fashion & More</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#fffaf6;color:#30251f}
+header{background:#f1e5d9;padding:20px;text-align:center}
+.logo{font-family:Georgia,serif;font-size:38px;letter-spacing:7px}
+.tagline{font-size:11px;letter-spacing:3px;margin-top:8px}
+nav{display:flex;justify-content:center;gap:22px;padding:15px;background:white;flex-wrap:wrap}
+nav a{color:#382c25;text-decoration:none;font-size:13px}
+.hero{padding:75px 20px;text-align:center;background:linear-gradient(120deg,#ead8c9,#f9eee5)}
+.hero h1{font-family:Georgia,serif;font-size:42px;margin-bottom:15px}
+.hero p{margin-bottom:24px}
+.btn{background:#4a3027;color:white;padding:13px 24px;border:0;text-decoration:none;cursor:pointer;display:inline-block}
+section{padding:45px 18px;text-align:center}
+h2{font-family:Georgia,serif;font-size:30px;margin-bottom:12px}
+.sub{color:#8b7770;font-size:14px;margin-bottom:25px}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cat{background:#eadbd0;padding:25px 5px;text-decoration:none;color:#30251f;font-family:Georgia,serif}
+.cat span{display:block;font-size:30px;margin-bottom:10px}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;text-align:left}
+.product{background:white;padding:10px}
+.product img{width:100%;height:190px;object-fit:cover;background:#eee}
+.product h3{font-size:15px;margin:10px 0 5px}
+.price{font-weight:bold;margin:7px 0}
+.product button{width:100%;padding:10px;background:#4a3027;color:white;border:0;cursor:pointer}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+.filters button{padding:9px 13px;border:1px solid #bda99a;background:white;cursor:pointer}
+.filters button.active{background:#4a3027;color:white}
+#search{padding:12px;width:100%;max-width:350px;border:1px solid #cbb9aa;margin-bottom:20px}
+.about{background:#f1e5d9;line-height:1.8}
+footer{background:#30251f;color:white;padding:30px 15px;text-align:center;line-height:2}
+footer a{color:#f1d7c1}
+#cart{position:fixed;right:15px;bottom:15px;background:#4a3027;color:white;padding:14px 18px;border:0;border-radius:30px;z-index:5}
+@media(min-width:700px){.products{grid-template-columns:repeat(4,1fr)}.product img{height:240px}.hero h1{font-size:60px}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">SS LUXE</div>
+<div class="tagline">FASHION • JEWELLERY • THRIFT</div>
+</header>
+
+<nav>
+<a href="#home">HOME</a>
+<a href="#shop">SHOP</a>
+<a href="#categories">COLLECTIONS</a>
+<a href="#about">ABOUT</a>
+<a href="#contact">CONTACT</a>
+</nav>
+
+<div class="hero" id="home">
+<h1>Style That Speaks</h1>
+<p>Discover fashion, beautiful jewellery and unique thrift finds.</p>
+<a href="#shop" class="btn">EXPLORE COLLECTION</a>
+</div>
+
+<section id="categories">
+<h2>Our Collections</h2>
+<p class="sub">Find something you love.</p>
+<div class="categories">
+<a class="cat" href="#shop" onclick="filterProducts('Clothing')"><span>👗</span>Clothing</a>
+<a class="cat" href="#shop" onclick="filterProducts('Jewellery')"><span>💎</span>Jewellery</a>
+<a class="cat" href="#shop" onclick="filterProducts('Thrift')"><span>🛍️</span>Thrift</a>
+</div>
+</section>
+
+<section id="shop">
+<h2>Shop Our Products</h2>
+<p class="sub">A little luxury, a lot of style.</p>
+<input id="search" type="search" placeholder="Search products..." oninput="renderProducts()">
+<div class="filters">
+<button class="active" onclick="filterProducts('All',this)">All</button>
+<button onclick="filterProducts('Clothing',this)">Clothing</button>
+<button onclick="filterProducts('Jewellery',this)">Jewellery</button>
+<button onclick="filterProducts('Thrift',this)">Thrift</button>
+</div>
+<div class="products" id="products"></div>
+</section>
+
+<section class="about" id="about">
+<h2>About SS LUXE</h2>
+<p>Welcome to SS LUXE! Your destination for clothing, gorgeous jewellery and carefully selected thrift fashion. We believe great style should be accessible to everyone.</p>
+</section>
+
+<section id="contact">
+<h2>Let's Connect</h2>
+<p class="sub">Have questions? We'd love to hear from you.</p>
+<a class="btn" id="contactLink" href="https://wa.me/" target="_blank">CONTACT ON WHATSAPP</a>
+</section>
+
+<footer>
+<strong>SS LUXE</strong><br>
+Fashion • Jewellery • Thrift<br>
+Instagram: <a href="https://instagram.com/" target="_blank">@yourinstagram</a><br>
+© 2026 SS LUXE. All rights reserved.
+</footer>
+
+<button id="cart" onclick="checkout()">🛍️ Cart (<span id="count">0</span>)</button>
+
+<script>
+// EDIT YOUR PRODUCTS HERE
+const products=[
+{name:"Elegant Dress",category:"Clothing",price:799,image:"https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=500"},
+{name:"Casual Top",category:"Clothing",price:499,image:"https://images.unsplash.com/photo-1551163943-3f6a855d1153?w=500"},
+{name:"Stylish Outfit",category:"Clothing",price:999,image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500"},
+{name:"Fashion Earrings",category:"Jewellery",price:199,image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500"},
+{name:"Gold Necklace",category:"Jewellery",price:299,image:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500"},
+{name:"Cute Bracelet",category:"Jewellery",price:149,image:"https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=500"},
+{name:"Thrift Vintage Shirt",category:"Thrift",price:299,image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+{name:"Thrift Fashion Find",category:"Thrift",price:399,image:"https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500"},
+{name:"Vintage Jacket",category:"Thrift",price:599,image:"https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500"},
+{name:"Classic Earrings",category:"Jewellery",price:249,image:"https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=500"}
+];
+
+// CHANGE THIS TO YOUR WHATSAPP NUMBER
+// Include country code, without + or spaces.
+const WHATSAPP_NUMBER="91XXXXXXXXXX";
+
+let selectedCategory="All";
+let cart=[];
+
+function filterProducts(category,button){
+selectedCategory=category;
+document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
+if(button)button.classList.add("active");
+renderProducts();
+}
+
+function renderProducts(){
+const search=document.getElementById("search").value.toLowerCase();
+const list=products.filter(p=>
+(selectedCategory==="All"||p.category===selectedCategory)&&
+p.name.toLowerCase().includes(search)
+);
+document.getElementById("products").innerHTML=list.map(p=>`
+<div class="product">
+<img src="${p.image}" alt="${p.name}" loading="lazy">
+<h3>${p.name}</h3>
+<small>${p.category}</small>
+<div class="price">₹${p.price}</div>
+<button onclick="addToCart('${p.name}')">Add to Cart</button>
+</div>`).join("")||"<p>No products found.</p>";
+}
+
+function addToCart(name){
+const product=products.find(p=>p.name===name);
+cart.push(product);
+document.getElementById("count").textContent=cart.length;
+alert(name+" added to your cart!");
+}
+
+function checkout(){
+if(cart.length===0){alert("Your cart is empty!");return;}
+if(WHATSAPP_NUMBER.includes("X")){alert("Please add your WhatsApp number in the code first.");return;}
+let message="Hello SS LUXE! I want to order:\n";
+cart.forEach(p=>message+=p.name+" - ₹"+p.price+"\n");
+let total=cart.reduce((sum,p)=>sum+p.price,0);
+message+="Total: ₹"+total;
+window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(message),"_blank");
+}
+
+renderProducts();
+</script>
+</body>
+</html>
